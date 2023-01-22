@@ -1,0 +1,19 @@
+//Binding Means Dynamic Changes
+
+//html
+===========
+ <div id="app">
+            <h1> My name is {{ name }} </h1>
+            <input type="text" v-model="name">
+        </div>
+//js
+===========
+const app = Vue.createApp({
+    data() {
+        return {
+            name: 'sohel',
+        }
+    }
+})
+
+app.mount('#app')

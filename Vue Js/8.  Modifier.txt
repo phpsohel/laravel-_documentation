@@ -1,0 +1,22 @@
+//What is Modifier ?
+Event gula ke kivabe modifire kora jai
+//html
+<div id="app">
+            <h1> My name is {{ name }} </h1>
+            <button @click.alt="message">Click me</button>
+        </div>
+//js
+const app = Vue.createApp({
+    data() {
+        return {
+            name: 'sohel',
+        }
+    },
+    methods: {
+        message() {
+            alert('hi')
+        }
+    }
+})
+
+app.mount('#app')
