@@ -1,0 +1,17 @@
+//Binding Means Link:
+<div id="app">
+        <p> <a v-bind:href="binding.link">Facebook</a></p>
+    </div>
+
+<script>
+        let sohel = Vue.createApp({
+            data() {
+                return{
+                    binding:{
+                        link: "https://vuejs.org/"
+                    }
+                }
+            }
+        })
+        sohel.mount("#app")
+</script>

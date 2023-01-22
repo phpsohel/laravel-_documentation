@@ -1,0 +1,4 @@
+Favicon:
+================
+ <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('/') }}public/assets/frontend/images/icons/logo.png">

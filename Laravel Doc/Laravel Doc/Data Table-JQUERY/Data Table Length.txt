@@ -1,0 +1,9 @@
+//"pageLength": 50
+
+$(" #example1").DataTable({
+            "responsive": true
+            , "lengthChange": true
+            , "pageLength": 50
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        })

@@ -1,0 +1,3 @@
+//User Name Show:
+=====================
+<span>{{ Auth::user()->name }} </span>

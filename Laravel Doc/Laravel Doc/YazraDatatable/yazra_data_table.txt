@@ -1,0 +1,6 @@
+composer require yajra/laravel-datatables
+
+//Open the file config/app.php and then add following service provider.
+Yajra\DataTables\DataTablesServiceProvider::class,
+
+php artisan vendor:publish --tag=datatables

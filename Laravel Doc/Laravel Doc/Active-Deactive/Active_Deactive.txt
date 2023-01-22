@@ -1,0 +1,39 @@
+Active Deactive Code:
+========================
+Route:
+============
+Route::get('admin/status-customer/{id}', 'Status')->name('admin.status-customer');
+
+Controller:
+================
+ public function Status($id){
+       $status = DB::table('customers')->where('id', $id)->first();
+       if($status->status){
+            $status = 0;
+       }else{
+        $status = 1;
+       }
+       $values = array('status' =>$status);
+       DB::table('customers')->where('id', $id)->update($values);
+    return redirect()->back();
+    }
+
+View:
+================
+<td>
+   @if($customer->status == 1)
+      <a href="{{ route('admin.status-customer', $customer->id )}}" class="btn btn-success">Active</a>
+    @elseif($customer->status == 0)
+    <a href="{{route('admin.status-customer',$customer->id )}}" class="btn btn-danger" >Deactive</a>
+    @endif
+</td>
+edit:
+==========
+<div class="form-group">
+    <label>Status</label>
+         <select required name="status" class="form-control selectpicker" name="customer_group_id">
+           <option value="1" {{ $edit->status == 1? 'selected': '' }}>Cash</option>
+           <option value="2" {{ $edit->status == 2? 'selected': '' }}>Online</option>
+           <option value="3" {{ $edit->status == 3? 'selected': '' }}>Bkash</option>
+     </select>
+</div>

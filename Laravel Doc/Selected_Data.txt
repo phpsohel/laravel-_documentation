@@ -1,0 +1,7 @@
+//Single page CRUD And Resource Controller use:
+
+<select name="garment_id" id="" class="form-control">
+     @foreach($garments as $key => $garment)
+        <option value="{{ $garment->id }}" {{ $garment->id == $worker->garment_id ? 'Selected': ''}}>{{ $garment->name ?? '' }}</option>
+     @endforeach
+</select>

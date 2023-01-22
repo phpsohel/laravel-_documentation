@@ -1,0 +1,14 @@
+'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',  
+if($request->file('photo')){
+            $file = $request->file('photo');
+            $fileName = date('Y-m-d ').$file->getClientOriginalName();
+            $file->move(public_path('member_image'),$fileName);
+            $update->photo =  $fileName;
+            
+        }
+        $update->save();
+        $notification = array(
+            'message' => 'Member  Data Updated Successfully!',
+            'alert-type' => 'success'
+        );
+        return redirect('/member/index')->with($notification);

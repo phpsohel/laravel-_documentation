@@ -1,0 +1,74 @@
+Image Upload:
+==================
+ public function postRegistration(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+            'photo' => 'image|mimes:jpg,jpeg,png,gif|max:100000',
+        ]);
+        $data = new User();
+        $data->name = $request->name;
+        $data->email = $request->email;
+
+        $image = $request->photo;
+        $imageName =  $image->getClientOriginalName();
+        $imageStore = $image->storeAs('public/image', $imageName);
+        $data->photo = $imageName;
+
+        $data->password = bcrypt($request->password);
+        $data->save();
+        return redirect('/')->with('success','Great! You have Successfully Registration in');
+    }
+php artisan storage:link
+
+Image Update:
+===============
+ public function update(Request $request, $id)
+    {
+        $update = Employee::findorFail($id);
+        $update->name =$request->name;
+        $update->phone =$request->phone;
+        $update->address =$request->address;
+        if($request->hasFile('photo')){
+            $image = $request->photo;
+            $image_name = $image->getClientOriginalName();
+            $image_store = $image->storeAs('public/image',$image_name);
+            $update->photo =  $image_name;
+        }else{
+            unset($update->photo);
+        }
+         
+
+        // if($request->hasFile('photo')) {
+        //     $image = $request->file('photo');
+        //     $filename = $image->getClientOriginalName();
+        //     $image->move(public_path('image'), $filename);
+        //     dd($update->image = $request->file('photo')->getClientOriginalName());
+        // }
+        $update->update();
+
+        // $update->save();
+        return redirect('admin/all-employee');
+
+//Blade file:
+=====================
+@if(!empty($users->profile_image))
+        <img src="{{ asset('public/upload/admin_images/'.$users->profile_image) }}" alt="{{ $users->name }}" class="avatar-md rounded-circle">
+@else
+	<img src="{{ asset('public/upload/no_image.jpg') }}" alt="{{ $users->name }}" class="avatar-md rounded-circle">
+@endif
+
+
+Background Image url Path:
+=============================
+<img src="{{ url($main->bg_image)}}" style="height:250px; width:50%" alt="">
+style="background-image: url('/food-image/{{ $add_food->image }}');"
+
+image Storage path:
+=========================
+<img style= "height:100px;" src="{{ asset('storage/uploads') }}/{{ $product->image }}" alt="" >
+
+Or:
+======
+<img style= "height:100px;" src="{{ asset('storage/uploads/'.$product->image) }}" alt="" >

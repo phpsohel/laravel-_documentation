@@ -1,0 +1,18 @@
+//Delete Javscript:
+======================================= 
+<li>
+      <form action="{{ route('remainder.destroy',$remainder->id)}}" id="delete-form-{{ $remainder->id }}" method="POST">
+        @csrf
+        @method("DELETE")
+      </form>
+
+           <a class="btn btn-link" title="Delete" onclick="if(confirm('Are you sure to delete'))
+            {
+              event.preventDefault();
+              document.getElementById('delete-form-{{ $remainder->id }}').submit();
+            }else {
+              event.preventDefault();
+            }" ><i class="dripicons-trash"></i> <span class=""> Delete</span>
+
+            </a>
+</li>

@@ -1,0 +1,21 @@
+ public function store(Request $request)
+    {
+        $store = new HomeSlider();
+        $store->title = $request->title;
+        $store->short_title = $request->short_title;
+        $store->video_url = $request->video_url;
+
+        if($request->file('home_slide')){
+            $file = $request->file('home_slide');
+
+            $fileName = date('Y-m-d').$file->getClientOriginalName();
+            $file->move(public_path('upload/home_slider/'),$fileName);
+            $store->home_slide =  $fileName;
+            $store->save();
+                $notification = array(
+                'message' => 'Slider Added  Successfully!',
+                'alert-type' => 'success'
+                );
+        }
+        return redirect()->back()->with($notification);
+    }

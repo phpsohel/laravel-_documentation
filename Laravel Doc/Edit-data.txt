@@ -1,0 +1,25 @@
+Route:
+    Route::get('/post/edit/{id}',[AdminController::class, 'Edit'])->name('admin.post.edit');
+    Route::post('/post/update/{id}',[AdminController::class, 'Update'])->name('admin.post.update');
+Controller:
+=================
+    public function Edit($id){
+	//   $edits = Post::find($id);
+        $edits = DB::table('posts')->where('id', $id)->first();
+        return view('admin.post.edit-post', compact('edits'));
+    }
+ public function Update(Request $request, $id){
+        $request->validate([
+            'title' => 'required',
+            'tag' => 'required',
+            'description' => 'required'
+        ]);
+//        $update  = DB::table('posts')->where('id', $id)->first();
+        $update = Post::find($id);
+        $update->title = $request->title;
+        $update->tag = $request->tag;
+        $update->description = $request->description;
+        $update->image = $request->image;
+        $update->save();
+        return redirect('/admin/post/add-post');
+    }

@@ -1,0 +1,19 @@
+Authentication:
+===============
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install
+npm run dev
+
+//Problem Solve:
+=====================
+
+//jetstrim Problem layouts/app.blade.php 
+
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<script src="{{ asset('js/app.js') }}" defer></script>
+
+//use layouts/guest.blade.php file replace vite
+
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<script src="{{ asset('js/app.js') }}" defer></script>

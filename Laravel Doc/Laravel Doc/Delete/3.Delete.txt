@@ -1,0 +1,11 @@
+Route:
+===========
+Route::get('/post/delete/{id}',[AdminController::class, 'Delete'])->name('admin.post.delete');
+Controller:
+=============
+    public function Delete($id){
+//        $delete = DB::table('posts')->where('id', $id)->first();
+        $delete = Post::find($id);
+        $delete->delete();
+        return redirect('/admin/post/add-post');
+}

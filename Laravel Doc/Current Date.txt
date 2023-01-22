@@ -1,0 +1,16 @@
+
+PHP Blade file:
+==================
+<input type="text" value="{{  now()->toDateString() }}" name="start_date" value="" />
+
+
+===========
+js
+=========
+<input type="text" id="datepicker" name="start_date" value="" />
+<input type="text" id="datepicker2" name="end_date" value="" />
+ $(document).ready(function() {
+            $("#datepicker, #datepicker2").datepicker({
+                dateFormat:"yy/mm/dd"
+            }).datepicker("setDate",new Date());
+        });

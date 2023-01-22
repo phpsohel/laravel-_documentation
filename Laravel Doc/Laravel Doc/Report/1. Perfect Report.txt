@@ -1,0 +1,147 @@
+ public function leadReminderReport(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $user_id  = $request->user_id;
+        $stage = $request->stage;
+
+        if($stage && $start_date && $end_date && $user_id)
+        {
+           if($stage == 2)
+           {
+            $st = 0;
+           }else{
+            $st = 1;
+           }
+        $lims_reminder_data = Remainder::whereBetween('noti_datetime',  array($start_date,$end_date))
+        ->where('stage',$st)
+        ->where('user_id',$user_id)
+        ->orderBy('id','DESC')
+         ->get();
+        }
+        elseif($start_date && $end_date && $user_id)
+        {
+         $lims_reminder_data = Remainder::whereBetween('noti_datetime',  array($start_date,$end_date))
+         ->where('user_id',$user_id)
+         ->orderBy('id','DESC')
+         ->get();
+        }
+        elseif($start_date && $end_date && $stage)
+        {
+         if($stage == 2)
+           {
+            $st = 0;
+           }else{
+            $st = 1;
+           }
+
+          $lims_reminder_data = Remainder::whereBetween('noti_datetime',  array($start_date,$end_date))
+         ->where('stage',$st)
+         ->get();
+        }elseif($start_date && $end_date)
+        {
+         $lims_reminder_data = Remainder::whereBetween('noti_datetime',  array($start_date,$end_date))
+         ->get();
+        }elseif($user_id && $stage)
+        {
+            if($stage == 2)
+           {
+            $st = 0;
+           }else{
+            $st = 1;
+           }
+          $lims_reminder_data = Remainder::where('user_id',$user_id)
+         ->where('stage',$st)
+         ->get();
+        }elseif($user_id)
+        {
+            $lims_reminder_data = Remainder::where('user_id',$user_id)
+            ->orderBy('id','DESC')
+            ->get();
+        }elseif($stage)
+        {
+         if($stage == 2)
+           {
+            $st = 0;
+           }else{
+            $st = 1;
+           }
+         $lims_reminder_data = Remainder::where('stage',$st)
+         ->get();
+
+        }else{
+
+           $lims_reminder_data = Remainder::get();
+        }
+        $lims_user_list = User::where('is_active', true)->get();
+        return view('report.lead_reminder_report',compact('lims_user_list','stage','lims_reminder_data' ,'start_date', 'end_date','user_id'));
+    }
+
+
+
+
+//Blade File:
+ <div class="card">
+            <div class="card-header mt-2">
+                <h3 class="text-center">Lead Reminder Report</h3>
+            </div>
+            {!! Form::open(['route' => 'report.lead_reminder_report', 'method' => 'post']) !!}
+            <div class="report mb-3">
+                <div class="row ">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="d-tc"><strong>Start Date</strong> &nbsp;</label>
+                            <div class="d-tc">
+                                <div class="input-group">
+                                    <input type="date" class="form-control mx-2" id="datepicker" name="start_date" value="{{$start_date ? $start_date : date('Y-m-d')}}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label class="d-tc"><strong>End Date</strong> &nbsp;</label>
+                            <div class="d-tc">
+                                <div class="input-group">
+                                    <input type="date" class="form-control mx-2" id="datepicker2" name="end_date" value="{{$end_date ? $end_date : date('Y-m-d')}}" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label class="d-tc"><strong> Select User</strong> &nbsp;</label>
+                            <div class="d-tc">
+                                {{-- <input type="hidden" name="user_id_hidden" value="{{$user_id}}" /> --}}
+                                <select name="user_id" class="selectpicker form-control">
+                                    <option selected value="0">All User</option>
+                                    @foreach($lims_user_list as $user)
+                                    <option value="{{$user->id}}" {{$user->id == $user_id ? "Selected":''}}>{{$user->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label class="d-tc"><strong> Select Reminder</strong> &nbsp;</label>
+                            <div class="d-tc">
+                                <select id="stage" name="stage" class="form-control selectpicker">
+                                    <option value="">All</option>
+                                    <option value="2"  {{ $stage == 2 ? 'Selected': '' }}>Incomplete</option>
+                                    <option value="1" {{ $stage == 1 ? 'Selected': '' }}>Complete</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label><strong></strong></label>
+                        <div class="form-group pt-2">
+                            <button class="btn btn-primary" type="submit">{{trans('file.submit')}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {!! Form::close() !!}
+        </div>

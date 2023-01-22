@@ -1,0 +1,24 @@
+//Forelse Use 
+@forelse($all_employees as $key => $all_employee)
+                              <tr>
+                                  <td>{{ ++$i }}</td>
+                                  <td>{{ $all_employee->name ?? '' }}</td>
+                                  <td>{{ $all_employee->phone ?? ''}}</td>
+                                  <td>{{ $all_employee->address  ?? ''}}</td>
+                                  <td>{{ $all_employee->experience ?? ''}}</td>
+                                  <td>
+                                    <img style="height: 100px;" src="{{ asset('storage/image/'.$all_employee->photo) }}" alt="">
+                                  </td>
+                                  
+                                  <td>{{ $all_employee->nid_no ?? '' }}</td>
+                                  <td>{{ $all_employee->salary ?? '' }}</td>
+                                  <td>{{ $all_employee->vacation ?? '' }}</td>
+                                  <td>{{ $all_employee->city  ?? ''}}</td>
+                                  <td>
+                                    <a href="{{ route('admin.edit.add-employee', $all_employee->id) }}" class="btn btn-success">Edit</a>
+                                    <a href="{{ route('admin.view-employee', $all_employee->id) }}" class="btn btn-primary">View</a>
+                                    <a href="{{ route('admin.delete-employee', $all_employee->id) }}" class="btn btn-danger">Delete</a>
+                                  </td>
+                              </tr>
+                              @empty
+                              @endforelse

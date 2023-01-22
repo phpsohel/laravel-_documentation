@@ -1,0 +1,5 @@
+git remote remove origin
+
+then your url 
+===============
+git remote add origin https://github.com/phpsohel/Bikri_Laravel.git

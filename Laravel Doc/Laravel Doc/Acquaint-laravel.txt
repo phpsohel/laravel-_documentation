@@ -1,0 +1,892 @@
+Free template Link :
+======================
+https://templatemo.com/
+
+All File Create:
+==================
+php artisan make:model Hospital --all
+//Controller
+php artisan make:controller CompanyController --resource
+
+//Factory
+php artisan make:factory CompanyFactory -model=Company 
+
+//Auth In bootstrap
+composer require laravel/ui
+php artisan ui bootstrap
+npm install && npm run dev
+php artisan ui bootstrap --auth
+
+
+//Jetstrim Auth 
+composer require laravel/jetstream
+php artisan jetstream:install livewire
+npm install && npm run dev
+php artisan migrate
+
+//jetstrim Problem layouts/app.blade.php 
+
+@livewireStyles
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<script src="{{ asset('js/app.js') }}" defer></script>
+
+//use layouts/guest.blade.php file replace vite
+
+@livewireStyles
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<script src="{{ asset('js/app.js') }}" defer></script>
+
+//optional
+composer global update
+
+//Auth Page Redirect 
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Models\User;
+class HomeController extends Controller
+{
+    public function redirect(){
+
+	$usertype = Auth::user()->usertype;
+		if($usertype == 1){
+			dd('admin home')
+		}else{
+			dd('user home')
+		}
+	or:
+
+        if(Auth::id()){
+            if(Auth::user()->usertype=='1'){
+                return view('admin.home');
+            }else{
+                return view('dashboard');
+            }
+        }else{
+            
+        }
+    }
+}
+//Jetstrim Logout Custom Code
+ <li>
+    <form method="POST" action="{{ route('logout') }}">
+      @csrf
+        <div class="nav-item">
+            <a class="md md-settings-power nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                this.closest('form').submit(); " role="button">
+                   <i class="fas fa-sign-out-alt"></i>
+                       {{ __('Log Out') }}
+              </a>
+          </div>
+    </form>
+ </li>
+
+//Model Create Resoucres
+php artisan make:model product -m
+php artisan make:model product --all
+//Database Relationship
+ @foreach($employee as $employees)
+          @php
+                $com = DB::table('companies')->where('id',$employees->company_id)->first();  
+                // $com1 = App\Company::find($employees->company_id);
+                // dd($com1);          
+          @endphp
+
+          <tbody>
+            <tr>
+              <th scope="row">{{$employees->id}}</th>
+              <th scope="row">{{$employees->first_name}}</th>
+              <th scope="row">{{$employees->last_name}}</th>
+              <th scope="row">{{$com->name}}</th>
+              <th scope="row">{{$employees->email}}</th>
+              <th scope="row">{{$employees->phone}}</th>
+              <th scope="row">{{$employees->city}}</th>
+
+            </tr>
+          @endforeach()
+//Data Insert
+    public function data(Request $request){
+        $obj = new Category;
+        $obj->name = $request->name;
+        $obj->email = $request->email;
+        $obj->save();
+        return redirect()->back();
+    }
+
+Custom Logout:
+====================
+Route::get('/logout', [AdminController::class, 'Logout'])->name('logout');
+public function Logout(){
+	Auth::guard('admin')->logout();
+	return redirect('admin.logout');
+}
+Laravel 9 Logout :
+====================
+Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+public function perform()
+    {
+        Session::flush();
+        
+        Auth::logout();
+
+        return redirect('login');
+    }
+}
+Custom Login:
+=====================
+public function Login(Request $request){
+	$request->validate([
+		'email' => 'required',
+		'password' => 'required'
+	]);
+	if(Auth::guard('admin')->attempt(['email=>$request->email, password=>$request->password']);
+		return redirect('admin.dashboard');
+	}else{
+		session::flass('error-msg', 'Email or Password Not Valid');
+		return redirect()->back();
+	}
+}
+admin.login page error-message:
+=================================
+@if(Session::has('error-msg')
+	<span class="text-danger">{{ Session::get('error-msg')}}
+@endif
+
+Login Error Validation:
+========================
+ @if($errors->has('name'))
+     <span class="text-danger">{{ $errors->first('name') }}</span>
+ @endif
+or:
+====
+@if($errors->any){
+	<div class= "alert alert-danger alert-dissmisable">
+		<button type="submit" class="close" data-dismiss ="alert">&times;</button>
+		@foreach($errors->all() as $error)
+			<strong> {{ $error }}</strong>
+		@endforeach
+	</div>
+@endif
+
+Success Message:
+========================
+@if ($message = Session::get('success'))
+       <div class="alert alert-info">{{ $message }} </div>
+@endif
+
+//With Message data alert:
+===========================
+@if(session()->has('success'))
+            <div class="alert alert-success">
+               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    {{ session()->get('success') }}
+               </div>
+@endif
+Jquery data validation:
+===========================
+    <script>
+        $(document).ready(function(){
+            $(#id).validate({
+                rules:{
+                    name:{
+                        'required' : true,
+                        'name' : true
+                    },
+                    email:{
+                        'required' : true,
+                        'email' : true
+                    },
+                    password:{
+                        'required' : true,
+                        minlength:6
+                    },
+                    c_password:{
+                        'required' : true,
+                        equalto: '#password'
+                    },
+                    terms:{
+                       'required' :true,
+                    }
+                },
+                message:{
+                    email:{
+                        'required' : 'Please enter Your Email',
+                        'email' :'Please valid Email'
+                    },
+                    password:{
+                        'required' : 'Please enter Your Password',
+                        'password' :'must be 6 Characters long Password'
+                    },
+                    c_password:{
+                        'required' : 'Please Confirm password',
+                        'equalTo' :'Password does not match'
+                    },
+                    terms: 'Please Accept your terms'
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element){
+                    error.addClass('invalid-feedback');
+                    element.closet('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass){
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass){
+                    $(element).removeClass('is-invalid');
+                }
+            })
+        });
+    </script>
+============================================
+//CRUD in Laravel 
+============================================
+C== Create :
+==============
+Route Define 
+==============
+Route::post('admin/vehicle/store', [VehicleController::class, 'store'])->name('admin.vehicle.store');
+//Controller :
+===============
+ // Data Store
+===============
+    public function store(Request $request){
+        $vehilces = new Report();
+        $vehilces->v_serial_no = $request->v_serial_no;
+        $vehilces->v_reg_no = $request->v_reg_no;
+        $vehilces->v_chasis_no = $request->v_chasis_no;
+        $vehilces->v_engine_no = $request->v_engine_no;
+        $vehilces->v_route_no = $request->v_route_no;
+        $vehilces->v_route_name_start = $request->v_route_name_start;
+        $vehilces->v_route_name_end = $request->v_route_name_end;
+        $vehilces->v_fitness_expiry_date = $request->v_fitness_expiry_date;
+        $vehilces->v_tax_expiry_date = $request->v_tax_expiry_date;
+        $vehilces->v_route_permit_expire_date = $request->v_route_permit_expire_date;
+        $vehilces->v_owner_name = $request->v_owner_name;
+        $vehilces->v_owner_address = $request->v_owner_address;
+        $vehilces->owner_phone_no = $request->owner_phone_no;
+	
+//Random Token
+        $serial = $request->v_serial_no;
+        $name = $request->v_owner_name;
+        $now = Carbon::now();
+        $token = $serial.'-'.$now.$name;
+        $token = Str::random(16,$token);
+        $vehilces->v_idetify_code = $token;
+        $vehilces->save();
+        return redirect()->route('admin.vehicle.all-report');
+    }
+// Create data add.php :
+======================
+ <form action="{{ route ('admin.vehicle.store')}}" method="POST">
+                @csrf
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputEmail4">Sl No:</label>
+                        <input type="integer" name="v_serial_no" class="form-control" id="inputEmail4" placeholder="Sl No">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Reg No:</label>
+                        <input type="integer" name="v_reg_no" class="form-control" id="inputPassword4" placeholder="Registration No">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Chasis No:</label>
+                        <input type="integer" name="v_chasis_no" class="form-control" id="inputPassword4" placeholder="Chasis No">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Engine No:</label>
+                        <input type="integer" name="v_engine_no" class="form-control" id="inputPassword4" placeholder="Engine No">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route No:</label>
+                        <input type="integer" name="v_route_no" class="form-control" id="inputPassword4" placeholder="Route No">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Name Start:</label>
+                        <input type="text" name="v_route_name_start" class="form-control" id="inputPassword4" placeholder="Route Name Start">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Name End:</label>
+                        <input type="text" name="v_route_name_end" class="form-control" id="inputPassword4" placeholder="Route No">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Fitness Expiry date:</label>
+                        <input type="date" name="v_fitness_expiry_date" class="form-control" id="inputPassword4" >
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Tax Expiry date:</label>
+                        <input type="date" name="v_tax_expiry_date" class="form-control" id="inputPassword4" >
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Permit Ex:  Date:</label>
+                        <input type="date" name="v_route_permit_expire_date" class="form-control" id="inputPassword4" >
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Name:</label>
+                        <input type="tex" name="v_owner_name" class="form-control" id="inputPassword4" placeholder="Mohammed">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Address:</label>
+                        <input type="tex" name="v_owner_address" class="form-control" id="inputPassword4" placeholder="Dhaka-1216">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Phone:</label>
+                        <input type="integer" name="owner_phone_no" class="form-control" id="inputPassword4" placeholder="01....">
+                    </div>
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+//R == Read Data Show :
+==========================
+//Route:
+========
+Route::get('admin/vehicle/all-report', [VehicleController::class, 'all_report'])->name('admin.vehicle.all-report');
+	
+//Controller:
+==============
+	public function all_report(){
+       	 $all_reports = DB::table('reports')->get();
+       	 return view('admin.vehicle.all-report-vehicle', compact('all_reports'));
+   	 }
+//View File:
+=============
+ 					<div class="col-md-12 col-sm-12 col-xs-12">
+                                               <table id="datatable" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sl No</th>
+                                                            <th>Reg No</th>
+                                                            <th>Chasis No</th>
+                                                            <th>Engine No</th>
+                                                            <th>Route No</th>
+                                                            <th>Route Name Start</th>
+                                                            <th>Route Name End</th>
+                                                            <th>Fitness Expiry Date</th>
+                                                            <th>Tax Expiry Date</th>
+                                                            <th>Route Permit Expire Date	</th>
+                                                            <th>Status</th>
+                                                            <th>Owner Name</th>
+                                                            <th>Owner Address</th>
+                                                            <th>Owner Phone No</th>
+                                                            <th>Identify Code</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($all_reports as $all_report )
+                                                        <tr>
+                                                            <td>{{$all_report->v_serial_no}}</td>
+                                                            <td>{{$all_report->v_reg_no}}</td>
+                                                            <td>{{$all_report->v_chasis_no}}</td>
+                                                            <td>{{$all_report->v_engine_no}}</td>
+                                                            <td>{{$all_report->v_route_no}}</td>
+                                                            <td>{{$all_report->v_route_name_start}}</td>
+                                                            <td>{{$all_report->v_route_name_end}}</td>
+                                                            <td>{{$all_report->v_fitness_expiry_date}}</td>
+                                                            <td>{{$all_report->v_tax_expiry_date}}</td>
+                                                            <td>{{$all_report->v_route_permit_expire_date}}</td>
+                                                            <td>
+                                                                @if($all_report->v_status == 1)
+                                                                <a href=""class="btn btn-success" >Active</a>
+                                                                @elseif($all_report->v_status == 0)
+                                                                <a href=""class="btn btn-danger" >Deactive</a>
+                                                                @endif
+                                                            <td>{{$all_report->v_owner_name}}</td>
+                                                            <td>{{$all_report->v_owner_address}}</td>
+                                                            <td>{{$all_report->owner_phone_no}}</td>
+                                                            <td>{{$all_report->v_idetify_code}}</td>
+                                                            <td>
+                                                                <a href="{{ route('admin.vehicle.edit',$all_report->id )}}" class="btn btn-primary">Edit</a>
+                                                                <a href="{{ route('admin.vehicle.delete',$all_report->id )}}" class="btn btn-danger">Delete</a>
+                                                                <a href="{{ route('admin.vehicle.view',$all_report->id )}}" class="btn btn-success">View</a>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+
+//E == Edit  Data :
+===================
+//Route File:
+==============
+Route::get('admin/vehicle/edit/{id}', [VehicleController::class, 'edit'])->name('admin.vehicle.edit');
+
+//Controlller:
+================
+    public function edit($id){
+        $edit = DB::table('reports')->where('id', $id)->first();
+        return view('admin.vehicle.edit', compact('edit'));
+    }
+//View File:
+=============
+  <div class="row">
+            <form action="{{ route('admin.vehicle.update',$edit->id)}}" method="POST">
+                @csrf
+                {{-- @method('put') --}}
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputEmail4">Sl No:</label>
+                        <input type="integer" name="v_serial_no"  class="form-control" id="inputEmail4" placeholder="Sl No"  value="{{ $edit->v_serial_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Reg No:</label>
+                        <input type="integer" name="v_reg_no" class="form-control" id="inputPassword4" placeholder="Registration No" value="{{ $edit->v_reg_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Chasis No:</label>
+                        <input type="integer" name="v_chasis_no" class="form-control" id="inputPassword4" placeholder="Chasis No" value="{{ $edit->v_chasis_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Engine No:</label>
+                        <input type="integer" name="v_engine_no" class="form-control" id="inputPassword4" placeholder="Engine No" value="{{ $edit->v_chasis_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route No:</label>
+                        <input type="integer" name="v_route_no" class="form-control" id="inputPassword4" placeholder="Route No" value="{{ $edit->v_route_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Name Start:</label>
+                        <input type="text" name="v_route_name_start" class="form-control" id="inputPassword4" placeholder="Route Name Start" value="{{ $edit->v_route_name_start }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Name End:</label>
+                        <input type="text" name="v_route_name_end" class="form-control" id="inputPassword4" placeholder="Route No" value="{{ $edit->v_route_name_end }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Fitness Expiry date:</label>
+                        <input type="date" name="v_fitness_expiry_date" class="form-control" id="inputPassword4" value="{{ $edit->v_fitness_expiry_date }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Tax Expiry date:</label>
+                        <input type="date" name="v_tax_expiry_date" class="form-control" id="inputPassword4" value="{{ $edit->v_tax_expiry_date }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Permit Ex:  Date:</label>
+                        <input type="date" name="v_route_permit_expire_date" class="form-control" id="inputPassword4" value="{{ $edit->v_route_permit_expire_date }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Name:</label>
+                        <input type="tex" name="v_owner_name" class="form-control" id="inputPassword4" placeholder="Mohammed" value="{{ $edit->v_owner_name }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Address:</label>
+                        <input type="tex" name="v_owner_address" class="form-control" id="inputPassword4" placeholder="Dhaka-1216" value="{{ $edit->v_owner_address }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Phone:</label>
+                        <input type="integer" name="owner_phone_no" class="form-control" id="inputPassword4" placeholder="01...." value="{{ $edit->owner_phone_no }}">
+                    </div>
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+//U == Update data:
+==================
+
+//Route File:
+===============
+Route::post('admin/vehicle/update/{id}', [VehicleController::class, 'update'])->name('admin.vehicle.update');
+
+//Controller File:
+===================
+    public function update(Request $request, $id){
+        // $update = DB::table('reports')->where('id', $id)->first();
+        $update = Report::find($id);
+        $update->v_serial_no = $request->v_serial_no;
+        $update->v_reg_no = $request->v_reg_no;
+        $update->v_chasis_no = $request->v_chasis_no;
+        $update->v_engine_no = $request->v_engine_no;
+        $update->v_route_no = $request->v_route_no;
+        $update->v_route_name_start = $request->v_route_name_start;
+        $update->v_route_name_end = $request->v_route_name_end;
+        $update->v_fitness_expiry_date = $request->v_fitness_expiry_date;
+        $update->v_tax_expiry_date = $request->v_tax_expiry_date;
+        $update->v_route_permit_expire_date = $request->v_route_permit_expire_date;
+        $update->v_owner_name = $request->v_owner_name;
+        $update->v_owner_address = $request->v_owner_address;
+        $update->owner_phone_no = $request->owner_phone_no;
+        $update->save();
+        return redirect()->route('admin.vehicle.all-report');
+    }
+//View File :
+==============
+            <form action="{{ route('admin.vehicle.update',$edit->id)}}" method="POST">
+                @csrf
+                {{-- @method('put') --}}
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputEmail4">Sl No:</label>
+                        <input type="integer" name="v_serial_no"  class="form-control" id="inputEmail4" placeholder="Sl No"  value="{{ $edit->v_serial_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Reg No:</label>
+                        <input type="integer" name="v_reg_no" class="form-control" id="inputPassword4" placeholder="Registration No" value="{{ $edit->v_reg_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Chasis No:</label>
+                        <input type="integer" name="v_chasis_no" class="form-control" id="inputPassword4" placeholder="Chasis No" value="{{ $edit->v_chasis_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Engine No:</label>
+                        <input type="integer" name="v_engine_no" class="form-control" id="inputPassword4" placeholder="Engine No" value="{{ $edit->v_chasis_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route No:</label>
+                        <input type="integer" name="v_route_no" class="form-control" id="inputPassword4" placeholder="Route No" value="{{ $edit->v_route_no }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Name Start:</label>
+                        <input type="text" name="v_route_name_start" class="form-control" id="inputPassword4" placeholder="Route Name Start" value="{{ $edit->v_route_name_start }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Name End:</label>
+                        <input type="text" name="v_route_name_end" class="form-control" id="inputPassword4" placeholder="Route No" value="{{ $edit->v_route_name_end }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Fitness Expiry date:</label>
+                        <input type="date" name="v_fitness_expiry_date" class="form-control" id="inputPassword4" value="{{ $edit->v_fitness_expiry_date }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Tax Expiry date:</label>
+                        <input type="date" name="v_tax_expiry_date" class="form-control" id="inputPassword4" value="{{ $edit->v_tax_expiry_date }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Route Permit Ex:  Date:</label>
+                        <input type="date" name="v_route_permit_expire_date" class="form-control" id="inputPassword4" value="{{ $edit->v_route_permit_expire_date }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Name:</label>
+                        <input type="tex" name="v_owner_name" class="form-control" id="inputPassword4" placeholder="Mohammed" value="{{ $edit->v_owner_name }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Address:</label>
+                        <input type="tex" name="v_owner_address" class="form-control" id="inputPassword4" placeholder="Dhaka-1216" value="{{ $edit->v_owner_address }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Owner Phone:</label>
+                        <input type="integer" name="owner_phone_no" class="form-control" id="inputPassword4" placeholder="01...." value="{{ $edit->owner_phone_no }}">
+                    </div>
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+//D == Delete data :
+===================
+//Route:
+=========
+Route::get('admin/vehicle/delete/{id}', [VehicleController::class, 'destroy'])->name('admin.vehicle.delete');
+
+ // Data Delete:
+===================
+    public function destroy($id){
+        $delete = Report::find($id);
+        $delete->delete();
+        return redirect()->route('admin.vehicle.all-report');
+    }
+
+//V == View details data :
+============================
+//Route:
+========
+Route::get('admin/vehicle/view/{id}', [VehicleController::class, 'view'])->name('admin.vehicle.view');
+
+//Controllers:
+================
+   public function view($id){
+        $all_reports = DB::table('reports')->where('id', $id)->get();
+        // $all_reports = Report::find($id);
+        // dd($view);
+        return view('admin.vehicle.view', compact('all_reports'));
+    }
+//View File:
+=================
+ <div class="row">
+                <div class="form-row">
+                    @foreach ($all_reports as $all_report )
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Sl No: </label> <span>{{ $all_report->v_serial_no }}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Reg No: </label> <span>{{ $all_report->v_reg_no }}</span></div>
+                        <hr>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Chasis No:</label> <span>{{ $all_report->v_chasis_no }}</span></div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Engine No:</label> <span>{{ $all_report->v_engine_no }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Route No:</label> <span>{{ $all_report->v_route_no }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Route Name Start:</label> <span>{{ $all_report->v_route_name_start }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Route Name End:</label> <span>{{ $all_report->v_route_name_end }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Fitness Expiry date:</label> <span>{{ $all_report->v_fitness_expiry_date }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Tax Expiry date:</label> <span>{{ $all_report->v_tax_expiry_date }} </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Route Permit Ex:  Date:</label> <span>{{ $all_report->v_route_permit_expire_date }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Status :</label> <span>{{ $all_report->v_status }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Owner Name:</label> <span>{{ $all_report->v_owner_name }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Owner Address:</label> <span>{{ $all_report->v_owner_address }}</div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Owner Phone:</label> <span>{{ $all_report->owner_phone_no }} </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Identify Code:</label> <span>{{ $all_report->v_idetify_code }} </div>
+                    </div>
+                    @endforeach
+                </div>
+        </div>
+Favicon:
+================
+ <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('/') }}public/assets/frontend/images/icons/logo.png">
+
+//Image Upload:
+================== 
+Image:
+========
+public function store(Request $request){
+        $main = new Main;
+        $main->title = $request->title;
+
+        $image = $request->photo;
+        $imageName =  $image->getClientOriginalName();
+        $imageStore = $image->storeAs('public/img', $imageName);
+        $main->bg_image = $imageName;
+Pdf:
+====
+	$pdf = $request->dowmload;
+        $pdfName =  $pdf->getClientOriginalName();
+        $pdfStore = $pdf->storeAs('public/pdf', $pdfName);
+        $main->resume = $pdfName;
+         $main->save();
+         $main->save();
+
+        return back();
+}
+php artisan storage:link
+<td>
+  <img src="storage/image/{{ $view->image}}" alt="" style="width:300px; height:200px">
+</td>
+
+//Image Url Use path:
+=======================
+<img src="doctorimage/{{ $doctor->image }}" alt="">
+
+Background Image url Path:
+=============================
+<img src="{{ url($main->bg_image)}}" style="height:250px; width:50%" alt="">
+
+//Random Code generate in Reports Table : 
+===========================================
+// Controller :
+===============
+  public function store(Request $request){
+        $vehilces = new Report();
+        $vehilces->v_serial_no = $request->v_serial_no;
+        $vehilces->v_reg_no = $request->v_reg_no;
+        $vehilces->v_chasis_no = $request->v_chasis_no;
+        $vehilces->v_engine_no = $request->v_engine_no;
+        $vehilces->v_route_no = $request->v_route_no;
+        $vehilces->v_route_name_start = $request->v_route_name_start;
+        $vehilces->v_route_name_end = $request->v_route_name_end;
+        $vehilces->v_fitness_expiry_date = $request->v_fitness_expiry_date;
+        $vehilces->v_tax_expiry_date = $request->v_tax_expiry_date;
+        $vehilces->v_route_permit_expire_date = $request->v_route_permit_expire_date;
+        $vehilces->v_owner_name = $request->v_owner_name;
+        $vehilces->v_owner_address = $request->v_owner_address;
+        $vehilces->owner_phone_no = $request->owner_phone_no;
+
+	//random Code  Generate
+        $serial = $request->v_serial_no;
+        $name = $request->v_owner_name;
+        $now = Carbon::now();
+        $token = $serial.'-'.$now.$name;
+        $token = Str::random(16,$token);
+        $vehilces->v_idetify_code = $token;
+        $vehilces->save();
+        return redirect()->route('admin.vehicle.all-report');
+    }
+2.Table
+     <tbody>
+                                                        @foreach ($all_reports as $all_report )
+                                                        <tr>
+                                                            <td>{{$all_report->v_serial_no}}</td>
+                                                            <td>{{$all_report->v_reg_no}}</td>
+                                                            <td>{{$all_report->v_chasis_no}}</td>
+                                                            <td>{{$all_report->v_engine_no}}</td>
+                                                            <td>{{$all_report->v_route_no}}</td>
+                                                            <td>{{$all_report->v_route_name_start}}</td>
+                                                            <td>{{$all_report->v_route_name_end}}</td>
+                                                            <td>{{$all_report->v_fitness_expiry_date}}</td>
+                                                            <td>{{$all_report->v_tax_expiry_date}}</td>
+                                                            <td>{{$all_report->v_route_permit_expire_date}}</td>
+                                                            <td>
+						//Status
+                                                                @if($all_report->v_status == 1)
+                                                                <a href=""class="btn btn-success" >Active</a>
+                                                                @elseif($all_report->v_status == 0)
+                                                                <a href=""class="btn btn-danger" >Deactive</a>
+                                                                @endif
+                                                            <td>{{$all_report->v_owner_name}}</td>
+                                                            <td>{{$all_report->v_owner_address}}</td>
+                                                            <td>{{$all_report->owner_phone_no}}</td>
+                                                            <td>{{$all_report->v_idetify_code}}</td>
+                                                            <td>
+                                                                <a href="{{ route('admin.vehicle.edit',$all_report->id )}}" class="btn btn-primary">Edit</a>
+                                                                <a href="{{ route('admin.vehicle.delete',$all_report->id )}}" class="btn btn-danger">Delete</a>
+                                                                <a href="{{ route('admin.vehicle.view',$all_report->id )}}" class="btn btn-success">View</a>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>       
+
+
+// Data Redirect To login Page:
+=================================
+Controller Page add:
+Route::get('/', function () {
+    return redirect ()->route('login');
+});
+
+//QR Code Generate:
+=====================
+ <div class="col-md-4">
+                <?php
+                $qrcode_msg= $all_report->v_reg_no."%0A";
+                $qrcode_msg.=$all_report->v_route_name_start." - ".$all_report->v_route_name_end."%0A";
+                $qrcode_msg.=$all_report->v_route_permit_expire_date."%0A";
+                $qrcode_msg.="http://223.27.94.123/vehicle/vehicle-details/checker.php?code=".$all_report->v_idetify_code;
+                ?>
+                <center><img src="http://223.27.94.123/vehicle/vehicle-details/generate.php?code=<?php echo $qrcode_msg;?>" alt=""></center>
+            </div>
+
+//Table Join And Relationship:
+===================================
+                    DB::table('reports')->select('purchases.*', 'users.name as userName', 'products.name as productName',
+                            'products.price as productPrice', 'products.created_at as productDate' )
+                    ->leftjoin('users', 'users.id', '=', 'purchases.user_id')
+                    ->leftjoin('products', 'products.id', '=', 'purchases.product_id')
+                    ->get();    
+//Search Query:
+==================
+ public function SearchQuery(Request $request){
+        if($request->isMethod('post')){
+            $query =$request->get('query');
+            $all_reports = DB::table('reports')
+                ->where('v_chasis_no','like','%'. $query .'%' )
+                ->orWhere('v_reg_no','like','%'. $query .'%' )
+                ->orWhere('v_owner_name','like','%'. $query .'%' )
+                ->get();
+                return view('admin.vehicle.all-report-vehicle', compact('all_reports'));
+        }
+
+   }
+Or:
+========
+ $users =  DB::table('users')->get();    
+if($request->user_id != null){
+            $purchases = $purchases->where('purchases.user_id', 'like', '%'.$request->user_id. '%');
+ } 
+
+//All Data Count:
+===================
+ $count = DB::table('reports')->count();
+
+//Active data Count:
+====================
+$active = DB::table('reports')->where('v_status', '1')->count();
+
+//Two  date Count To-From:
+ public function SearchQuery(Request $request){
+        $to = $request->sticker_printed_date;
+        $from = $request->sticker_expire_date;
+
+        $all_reports = DB::table('reports')
+            ->where('created_at', '>=', $to)
+            ->where('created_at', '<=', $from)
+            ->get();
+            return view('admin.vehicle.all-report-vehicle', compact('all_reports'));
+}
+
+//Admin login Name Show:
+==========================
+{{ Auth::User()->name }}
+
+//Admin Logout Validate Code:
+=================================
+<a href="{{ route('logout')}}" onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();"
+            		class="dropdown-item dropdown-footer">Logout</a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none">
+            @csrf
+          </form>
+</a>
+//Redirect to Login:
+====================
+ function __construct(){
+        $this->middleware('auth');
+    }
+
+
+//Group Function use:
+=======================
+Route::prefix('admin')->group(function(){
+	Route::get('add', [admincontroller::class, 'index']->name('add');
+	Route::get('view', [admincontroller::class, 'view']->name('view');
+});
+//File upload Cpanel --First Step Cache, View, Clear :
+=====================================================  
+php artisan route:clear
+php artisan cache:clear   
+php artisan config:clear  
+php artisan view:clear 
+
+//All Cache Clear Command:
+===========================     
+php artisan optimize:clear
+
+Route file Cache Clear Code:
+===============================     
+use Illuminate\Support\Facades\Artisan;
+
+//Route Cache Clear
+Route::get('/route-cache', function() {
+    Artisan::call('route:clear');
+return '<h1>Route facade value cleared</h1>';
+});
+//View Cache Clear
+Route::get('/view-cache', function() {
+    Artisan::call('view:clear');
+return '<h1>View facade value cleared</h1>';
+});
+// Clear Cache
+Route::get('/clear-cache', function() {
+    Artisan::call('route:clear');
+return '<h1>Clear Cache facade value cleared</h1>';
+});
+//Config Cache Clear
+Route::get('/config-cache', function() {
+    Artisan::call('route:clear');
+return '<h1>Config Cache facade value cleared</h1>';
+});
+//Remove datase Table:
+=======================
+php artisan migrate:rollback
+php artisan migrate:rollback

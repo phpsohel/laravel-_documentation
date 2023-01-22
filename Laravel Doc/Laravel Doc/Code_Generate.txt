@@ -1,0 +1,14 @@
+$store =  new Member();
+        $num   = '1000';
+        $last_id  = Member::orderBy('id','DESC')->first();
+       
+        if(!empty($last_id))
+        {
+            $code_add =  ++$last_id->id;
+        }else{
+             $code_add = 1; 
+        }
+        $code = $num + $code_add ;
+        $store->cbc_sl =  $code;
+
+	$store->save();

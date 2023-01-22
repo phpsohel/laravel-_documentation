@@ -1,0 +1,5 @@
+//Install Livewire
+composer require livewire/livewire
+
+//Create a component
+php artisan make:livewire counter

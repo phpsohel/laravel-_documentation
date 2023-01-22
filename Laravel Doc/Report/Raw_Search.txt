@@ -1,0 +1,20 @@
+//Search Query:
+==================
+ public function SearchQuery(Request $request){
+        if($request->isMethod('post')){
+            $query =$request->get('query');
+            $all_reports = DB::table('reports')
+                ->where('v_chasis_no','like','%'. $query .'%' )
+                ->orWhere('v_reg_no','like','%'. $query .'%' )
+                ->orWhere('v_owner_name','like','%'. $query .'%' )
+                ->get();
+                return view('admin.vehicle.all-report-vehicle', compact('all_reports'));
+        }
+
+   }
+Or:
+========
+ $users =  DB::table('users')->get();    
+if($request->user_id != null){
+            $purchases = $purchases->where('purchases.user_id', 'like', '%'.$request->user_id. '%');
+ } 

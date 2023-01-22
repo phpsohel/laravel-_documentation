@@ -1,0 +1,3 @@
+Controller:
+==============
+$domains = Domain_Hosting::where('domain_expiry_date',date('y-m-d'))->get();

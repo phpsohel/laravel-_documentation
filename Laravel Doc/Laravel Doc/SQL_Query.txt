@@ -1,0 +1,3 @@
+Update Query / Database Table:
+
+UPDATE `members` SET 'stage' = 2 WHERE 'stage' = 0

@@ -1,0 +1,5 @@
+//Request lifecycle hocche
+1. public ->index.php file e require __DIR__.'/../vendor/autoload.php';  load kore.
+2. public ->index.php file e require_once __DIR__.'/../bootstrap/app.php'; e ekti object ready kore fele.
+
+//Main Provider hocche config/app.php

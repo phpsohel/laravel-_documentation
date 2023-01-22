@@ -1,0 +1,8 @@
+
+//Vue Js First Step:
+========================
+1.npm install
+	npm insatll
+2. View Router Install
+hhgjh
+	

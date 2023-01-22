@@ -1,0 +1,18 @@
+<tbody>
+     	@php
+   		$i = 0;
+	@endphp
+                    @foreach ($categories as $category )
+                    <tr>
+                      <td>{{ ++$i }}</td>
+                      <td>{{ $category->cat_name }}</td>
+                      <td>{{ $category->countsubcat() }}</td>
+                      <td>{{ $category->slug }}</td>
+                      <td>{{ $category->product_count }}</td>
+                      <td>
+                        <a href="{{ route('admin.edit-category', $category->id) }}" class="text-danger"> Edit / </a>
+                        <a href="{{ route('admin.delete-category', $category->id) }}" class="text-danger"> Delete</a>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>

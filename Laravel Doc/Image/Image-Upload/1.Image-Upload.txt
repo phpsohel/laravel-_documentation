@@ -1,0 +1,26 @@
+ public function UpdateProfile(Request $request)
+    {
+        $id = Auth::id();
+        $update = User::find($id);
+        $update->name = $request->name;
+        $update->email = $request->email;
+        $update->username = $request->username;
+
+        if($request->file('profile_image')){
+            $file = $request->file('profile_image');
+
+            $fileName = date('Y-m-d').$file->getClientOriginalName();
+            $file->move(public_path('upload/admin_images'),$fileName);
+            $update['profile_image'] =  $fileName;
+        }
+        $update->save();
+        return redirect('/admin/profile');
+    }
+
+//Blade file:
+=====================
+@if(!empty($users->profile_image))
+        <img src="{{ asset('public/upload/admin_images/'.$users->profile_image) }}" alt="{{ $users->name }}" class="avatar-md rounded-circle">
+@else
+	<img src="{{ asset('public/upload/no_image.jpg') }}" alt="{{ $users->name }}" class="avatar-md rounded-circle">
+@endif

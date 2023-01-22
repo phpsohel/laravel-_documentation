@@ -1,0 +1,8 @@
+//Instance: 
+===========================
+That means Structure/Syntex
+	new Vue
+Elements:
+===========================
+el mens elements id
+	el: "#id",

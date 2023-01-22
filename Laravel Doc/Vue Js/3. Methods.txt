@@ -1,0 +1,20 @@
+const { createApp } = Vue
+
+const app = createApp({
+    data() {
+        return {
+            name:'sohel',
+            count: 0
+        }
+    },
+    methods:{
+        newage(){
+            return "hellow"
+        },
+        sohel() {
+            return `${this.name}`
+        }
+    }
+})
+
+app.mount('#app')

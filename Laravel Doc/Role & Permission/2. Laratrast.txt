@@ -1,0 +1,52 @@
+//Laratrast :
+
+composer require santigarcor/laratrust
+php artisan vendor:publish --tag="laratrust"
+php artisan config:clear
+php artisan laratrust:setup
+composer dump-autoload
+
+//Seeder:
+php artisan laratrust:seeder
+php artisan vendor:publish --tag="laratrust-seeder"
+composer dump-autoload
+
+//In the database/seeds/DatabaseSeeder.php file you have to add this to the run method:
+
+	$this->call(LaratrustSeeder::class);
+
+//Your config/laratrust_seeder.php file looks like this by default:
+return [
+    ...
+   'roles_structure' => [
+        'admin' => [
+            'users' => 'c,r,u,d',
+            'payments' => 'c,r,u,d',
+            'profile' => 'r,u'
+        ],
+        'user' => [
+            'users' => 'c,r,u,d',
+            'profile' => 'r,u'
+        ],
+        'customer' => [
+            'users' => 'c,r,u,d',
+            'profile' => 'r,u'
+        ]
+    ],
+    ...
+];
+//Then Migrate:
+php artisan migrate
+
+//DB Seed
+php artisan db:seed
+
+//User Role & Permission: app/http/auth/controller/RegisterController:
+//Default Regiaster User Role
+            $user->attachRole('user'); 
+        //end
+//Route:
+============
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'role:user'])->name('dashboard');

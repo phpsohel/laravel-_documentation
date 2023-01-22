@@ -1,0 +1,23 @@
+ Controller Details:
+==============================
+php artisan make:controller Admin/AdminController
+
+Route Declare:
+==================
+use App\Http\Controllers\Admin\AdminController;
+
+//Controller Routing:
+=======================
+Route::middleware(['auth', 'role:admin'])->group(function(){
+        Route::controller(AdminController::class)->group(function(){
+            route::get('profile', 'index');
+        });
+});
+
+Route::controller(AdminController::class)->group(function(){
+    route::get('profile', 'index');
+});
+
+Route:
+========
+Route::get('admin/dashboard', 'App\Http\Controllers\Admin\AdminController@Dashboard');

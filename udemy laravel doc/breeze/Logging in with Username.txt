@@ -1,0 +1,53 @@
+User name Add:
+====================
+Database/migrations/2014_10_12_000000_create_users_table.php
+  public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('username')->unique();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+//Model User.php
+ protected $fillable = [
+        'name',
+        'username',
+        'email',
+        'password',
+    ];
+//Blade File : auth/register.blade.php
+   <div class="mt-4">
+
+                <x-label for="username" :value="__('User Name')" />
+                <x-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus />
+            </div>
+
+//App/Http/Controller/auth/RegisteredUserController.php
+ public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'username' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+    }

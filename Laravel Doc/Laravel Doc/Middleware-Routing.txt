@@ -1,0 +1,26 @@
+//Middleware Routing & Controller:
+======================================
+Route::middleware(['auth'])->group(function () {
+
+    Route::controller(AdminController::class)->group(function()
+        {
+		route::get('profile', 'index');
+	});
+);
+
+AND:
+==========
+Route::middleware(['auth', 'role:admin'])->group(function(){ 
+        Route::controller(AdminController::class)->group(function(){
+            route::get('profile', 'index');
+        });
+});
+And:
+===========
+Route::group(['prefix' => 'dashboard', 'middleware'=> 'auth'], function(){
+        Route::get('/', [AdminControoler::class, 'index'])->name('dashboard');
+        //Middleware
+        Route::group(['Middleware' => 'Admin'], function(){
+
+        });
+});

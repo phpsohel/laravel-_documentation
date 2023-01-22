@@ -1,0 +1,30 @@
+Route:
+==============
+Route::get('/send-notificattion', function(){
+        $users = User::all();
+        foreach ($users as $key => $user){
+                $user->notify(new EmailNotification());
+               return 'Success';
+        }
+});
+//Create: app/Notifications
+=================================
+php artisan make:notification EmailNotification
+	public function toMail($notifiable)
+    {
+        return (new MailMessage)->view('mail');
+    }
+
+//Mailtrap.io : Check Mail Setting
+=====================================
+
+ENV.file:
+==================
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=e2406c81fb7877
+MAIL_PASSWORD=b783eb33081e12
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=test@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"

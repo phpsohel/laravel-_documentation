@@ -1,0 +1,19 @@
+//Controller
+=====================
+public function StoreSubCategory(Request $request){
+        $request->validate([
+            'subcategory_name' => 'required|unique:sub_categories',
+            'category_id' => 'required',
+        ]);
+      
+        $category_name = Category::where('id', $request->category_id)->value('cat_name');
+
+        $sub_categories = new SubCategory;
+        $sub_categories->category_name = $category_name;
+        $sub_categories->subcategory_name = $request->subcategory_name;
+        $sub_categories->category_id =  $request->category_id;
+        $sub_categories->slug = strtolower(str_replace(' ', '-',$request->subcategory_name ));
+        $sub_categories->save();
+        Category::where('id', $request->category_id)->increment('sub_cat_count');
+        return view('admin.sub-category.all-subcategory')->with('message', 'Sub Category Add Successfully');
+    }

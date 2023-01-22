@@ -1,0 +1,93 @@
+// Authentication Breeze Package
+Authentication:
+===============
+composer require laravel/breeze --dev
+php artisan breeze:install
+php artisan migrate
+npm install
+npm run build
+
+auth Edit:
+============
+<ul> 
+    @auth
+	<li><i class="fi-rs-plus"></i>{{ Auth::user()->name}} /
+                                    {{-- <a href="{{ route('login') }}">Log In </a>  / --}}
+             <form action="{{  route('logout') }}" method="POST">
+              @csrf
+                 <a href="{{  route('logout') }}" onclick="event.preventDefault(); this.closet('form').submit();">Log Out</a>
+              </form> 
+         </li>
+       @else
+       <li><i class="fi-rs-key"></i>
+           <a href="{{ route('login') }}">Log In </a>  /
+           <a href="{{ route('register') }}">Sign Up</a>
+        </li> 
+     @endauth
+                                
+</ul>
+//Mddleware Create:
+====================
+php artisan make:middleware AuthAdmin
+
+//edit Kernal.php
+=====================
+    protected $routeMiddleware = [
+        'AuthAdmin' => \App\Http\Middleware\AuthAdmin::class,
+]
+
+//Middleware Condition Declare:
+===============================
+public function handle(Request $request, Closure $next)
+    {
+        if(Auth::user()->utype === 'ADM'){
+            return $next($request);
+        }else{
+	    session()->flash();
+            return redirect('/login');
+        }
+        
+    }
+//Provider -> Routeserviceprovider.php
+==========================================
+   public const HOME = '/';
+
+//Livewire dashboard Create:
+==============================
+//Provider -> Routeserviceprovider.php
+==========================================
+php artisan make:livewire Admin/AdminDashboardComponent
+
+//Route:
+===============
+Route::middleware(['auth'])->group(function(){
+    Route::get('/user/dashboard', UserDashboardComponent::class )->name('user.dashboard');
+});
+Route::middleware(['auth', 'AuthAdmin'])->group(function(){
+    Route::get('/admin/dashboard', AdminDashboardComponent::class )->name('admin.dashboard');
+});
+//Admin & user Page Condition
+==============================
+app.blade.php
+======================
+
+<li><a href="#">My Account<i class="fi-rs-angle-down"></i></a>
+                                    
+    <ul class="sub-menu">
+            @auth
+                @if(Auth::user()->utype == 'ADMIN')
+                                                <li><a href="{{ route('admin.dashboard') }}">Admin Dashboard</a></li>
+                                                <li><a href="#">Products</a></li>
+                                                <li><a href="#">Categories</a></li>
+                                                <li><a href="#">Coupons</a></li>
+                                                <li><a href="#">Orders</a></li>
+                                                <li><a href="#">Customers</a></li>   
+            	@else
+                <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li> 
+                                                
+          @endif
+   @endauth                                
+ </ul>
+ </li>
+
+//Create Livewire

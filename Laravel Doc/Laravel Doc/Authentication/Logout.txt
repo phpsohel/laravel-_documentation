@@ -1,0 +1,26 @@
+//logout:
+=============
+Route:
+Route::controller(AdminController::class)->group(function(){
+        Route::get('admin/logout', 'Logout')->name('admin.logout');
+});
+//blade file:
+=====================
+<a class="dropdown-item text-danger" href="{{ route('admin.logout') }}">
+	<i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+
+Controller:
+====================
+<?php
+use Session;
+use Illuminate\Support\Facades\Auth;
+
+class AdminController extends Controller
+{
+    public function Logout()
+    {
+    	Session::flush();
+        Auth::logout();
+        return redirect('/login');
+    }
+}

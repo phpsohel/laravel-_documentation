@@ -1,0 +1,27 @@
+//Install DOM PDF:
+	composer require barryvdh/laravel-dompdf
+//Configaration:
+    	php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
+
+//Route:
+Route::get('categories/show/generate/{id}', 'generate')->name('categories.generate');
+
+//Blade file:
+<div class="display-flex">
+        <a href="{{ route('categories.generate', $show->id) }}" target="_blank"><button type="submit" class="btn btn-primary">Download</button></a>
+        <button type="submit" class="btn btn-success">Print</button>
+    </div>
+
+//Controller:
+ public function show($id)
+    {
+        $show  = Category::find($id);
+        return view('category.show', compact('show'));
+    }
+    public function generate($id)
+    {
+        $show  = Category::find($id);
+        $data = ['show' => $show];
+        $pdf = Pdf::loadView('category.generate', $data);
+        return $pdf->download('categories-invoice'.'-'.$show->id.'.pdf');
+    }

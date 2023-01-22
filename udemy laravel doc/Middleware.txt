@@ -1,0 +1,14 @@
+Middleware:
+================
+All Instruction And Codition Use in Middleware.
+
+Create Middleware:
+====================
+php artisan make:middleware CheckAge
+
+Register Middleware:
+========================
+	Kernal.php
+Route middleware :
+add//
+'age' => \Illuminate\Auth\Middleware\CheckAge::class,

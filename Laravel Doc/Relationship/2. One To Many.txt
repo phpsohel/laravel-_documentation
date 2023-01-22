@@ -1,0 +1,24 @@
+//Ekta Post e Onekgula Comment Thakte Pare  
+
+//Post Table
+[
+'name', 
+'title'
+]
+public function comment()
+{
+	return $this->hasMany(Comment::class);
+}
+
+
+//Comment Table
+
+[
+'post_id', 
+'comment',
+'message'
+]
+public function post()
+{
+	return $this->BelongsTo(Post::class);
+}

@@ -1,0 +1,4 @@
+//Nothing Migrate Database:
+==========================
+Error - Illuminate\Database\QueryException : SQLSTATE[HY000] [2054]
+php artisan migrate:fresh

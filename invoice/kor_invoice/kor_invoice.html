@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+        @media print {
+        * {
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        td,
+        th {
+            padding: 5px 0;
+        }
+
+        .hidden-print {
+            display: none !important;
+        }
+
+        @page {
+            margin: 0;
+        }
+
+        body {
+            margin: 0.5cm;
+            margin-bottom: 1.6cm;
+        }
+    }
+</style>
+<body style="background-color: rgba(80, 80, 80, 0.26); margin:30px">
+    <div class="container" id="table_print" style="background-color: #fff; padding:50px;">
+        <a id="click_print" type="button"><i class="fa-solid fa-print"></i> Print</a>
+        <div class="header">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-center mt-4">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার জাতীয় রাজস্ব বোর্ড</h2>
+                    <h4 class="text-center" style="font-weight: 700;">কর চালানপত্র</h4>
+                    <h6 class="text-center">বিধি ৪০ এর উপ-বিধি (১) এর দফা (গ) ও দফা (চ) দ্রষ্টব্য</h6>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom " style="background-color: #f1f1f159;">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-5 text-right">
+                    <br>
+                    <h4 style="font-size: 14px;">নিবন্ধিত ব্যক্তির নাম <span>:</span></h4>
+                    <h4 style="font-size: 14px;">নিবন্ধিত ব্যক্তির বিআইএন <span>:</span></h4>
+                    <h4 style="font-size: 14px;">চালান পত্র ইস্যুর ঠিকানা <span>:</span></h4>
+                </div>
+                <div class="col-md-5 text-left"></div>
+            </div>
+        </div>
+        <div class="header-middle" style="background-color: #f1f1f159;padding: 40px;
+    margin-bottom: 30px;">
+            <div class="row">
+                <div class="col-md-4 text-left">
+                    <h4 style="font-size: 14px;">ক্রেতার নাম <span>:</span></h4>
+                    <h4 style="font-size: 14px;">ক্রেতার বিআইএন <span>:</span></h4>
+                    <h4 style="font-size: 14px;">ক্রেতার ঠিকানা<span>:</span></h4>
+                    <h4 style="font-size: 14px;">সরবরাহের গন্তব্যস্থল<span>:</span></h4>
+                    <h4 style="font-size: 14px;">যানবাহনের প্রকৃতি নম্বর<span>:</span></h4>
+                </div>
+                <div class="col-md-4 text-right"></div>
+                <div class="col-md-4 text-right">
+                    <h4 style="font-size: 14px;">চালানপত্র নম্বর<span>: 4555</span></h4>
+                    <h4 style="font-size: 14px;">ইস্যুর তারিখ <span>: 12-3-2023</span></h4>
+                    <h4 style="font-size: 14px;">ইস্যুর সময় <span>: 20-45-2023</span></h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered product-sale-list">
+                <thead>
+                    <br>
+                    <br>
+                    <th style="font-size: 14px;">ক্রমিক</th>
+                    <th style="font-size: 14px;">পণ্য বা সেবার বর্ণনা (প্রযোজ্য ক্ষেত্রে ব্র্যান্ড নামসহ)</th>
+                    <th style="font-size: 14px;">সরবরাহের একক</th>
+                    <th style="font-size: 14px;">পরিমান</th>
+                    <th style="font-size: 14px;">একক মূল্য (টাকায়)</th>
+                    <th style="font-size: 14px;">মোট মূল্য (টাকায়)</th>
+                    <th style="font-size: 14px;">সম্পূরক সুল্কের হার</th>
+                    <th style="font-size: 14px;">সম্পূরক সুল্কের পরিমান (টাকায়)</th>
+                    <th style="font-size: 14px;">মূল্য সংযোজন করের হার / সুনির্দিষ্ট কর</th>
+                    <th style="font-size: 14px;">মূল্য সংযোজন করের হার / সুনির্দিষ্ট কর এর পরিমান (টাকায়)</th>
+                    <th style="font-size: 14px;">সকল প্রকার শুল্ক কর সহ মূল্য</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class=""></td>
+                        <td colspan="3"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <tfoot>
+                    <th></th>
+                    <th colspan="4" class="text-right">সর্বমোট</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tfoot>
+                </tbody>
+            </table>
+            <div class="col-md-4">
+                <h4 style="font-size: 14px;">প্রতিষ্ঠান কর্তৃপক্ষের দায়িত্বপ্রাপ্ত ব্যক্তির নাম <span>:</span></h4>
+                <h4 style="font-size: 14px;">পদবী <span>:</span></h4>
+                <h4 style="font-size: 14px;">স্বাক্ষর <span>:</span></h4>
+                <br>
+                <br>
+                <hr>
+                <h4>সকল প্রকার কর ব্যতীত মূল্য <span>:</span></h4>
+
+            </div>
+            <div class="col-md-4"></div>
+
+            <div class="col-md-4">
+                <br>
+                <br>
+                <br>
+                <h4>সীল <span>:</span></h4>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <script src="js/PrintJs.js"></script>
+    <script>
+            document.getElementById('loan-form').addEventListener('submit', calculateResult);
+            alert('ok');
+          
+    </script>
+    <script type="text/javascript">
+        $('#click_print').click(function () {
+            $('#table_print').printThis();
+        })
+
+    </script>
+</body>
+
+</html>

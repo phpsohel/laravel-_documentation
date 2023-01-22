@@ -1,0 +1,12 @@
+//Slug Create:
+==================
+ public function storecategory(Request $request){
+    $request->validate([
+        'cat_name' => 'required|unique:categories|max:255',
+    ]);
+    Category::insert([
+        'cat_name' => $request->cat_name,
+        'slug' => strtolower(str_replace(' ', '-', $request->cat_name))
+    ]);
+    return redirect('admin/all-category')->with('message', 'Category Name Added Successfully');
+  }

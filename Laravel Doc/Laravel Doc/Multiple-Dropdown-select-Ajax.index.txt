@@ -1,0 +1,170 @@
+<!-- Route -->
+    Route::get('member/report', 'report')->name('member.report');
+    Route::get('search/member/report', 'Ajaxreport')->name('member.search.report');
+
+<!-- //Controller -->
+public function report(Request $request)
+{
+    $reports = Member::get();
+    return view('admin.member.report', compact('reports'));
+    }
+    public function Ajaxreport(Request $request)
+    {
+    $cbc_type = $request->id; // ajax request id received
+    if($cbc_type == '0')
+    {
+    $searchs = Member::get();
+    }else{
+    $searchs = Member::where('cbc_type',$cbc_type)
+    ->get();
+}
+
+    return view('admin.member.search_report', compact('searchs'));
+}
+<!-- Blade  file-->
+
+<!-- Search.blade.php -->
+<div class="input-group rounded  mb-4">
+    <select class="form-control  cbc_type ">
+        <option value="0" class="form-control">All</option>
+        <option value="1">CBC-N</option>
+        <option value="2">CBC-S</option>
+        <option value="3">CBC-E</option>
+        <option value="4">CBC-W</option>
+    </select>
+</div>
+    <!-- jQuery -->
+    <script src="{{ asset('admin/auth/js/jquery/jquery.min.js')}}"></script>
+    
+    <!-- Toaster -->
+    <script src="{{ asset('admin/toaster/js/toastr.min.js')}}"></script>
+    
+    <script>
+        $(document).on('click', '.cbc_type', function () {
+
+            var id = $(".cbc_type option:selected").val();
+            console.log(id);
+            $.ajax({
+                type: 'get'
+                , url: "{{ route('member.search.report') }}"
+                , dataType: 'HTML'
+                , data: {
+                    id: id
+                }
+                , 'global': false
+                , asyn: true
+                , success: function (data) {
+
+                    $("#bl_table_append").html(data)
+
+                    console.log(data)
+                }
+                , error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+
+    </script>
+
+    <!-- Search_report.blade.php file -->
+    @if(!empty($searchs))
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-nowrap">
+            <thead class="m-4">
+                <tr>
+                    <th class="text-center" colspan="4">
+                        <h4><b>Member Report</b></h4>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sl</th>
+                                <th>Name</th>
+                                <th>Father's Name </th>
+    
+                                <th>Mother's Name</th>
+    
+                                <th>Address</th>
+    
+                                <th>Permanent Address</th>
+    
+                                <th>Date of Birth</th>
+                                <th>Education</th>
+    
+                                <th>Company Name</th>
+    
+                                <th>Designation</th>
+    
+                                <th>Company Address</th>
+    
+                                <th>Phone</th>
+    
+                                <th>Email</th>
+    
+                                <th>Blood</th>
+    
+                                <th>NID</th>
+                                <th>Juridiction of Factory</th>
+                                <th>Photo </th>
+                            </tr>
+                        </thead>
+                        @php
+                        $i = 0;
+                        @endphp
+                        <tbody>
+                            @foreach( $searchs as $member)
+                            <tr>
+                                <td>{{ ++$i}}</td>
+                                <td>{{ $member->member_name ?? ''}}</td>
+                                <td>{{ $member->father_name ?? ''}}</td>
+                                <td>{{ $member->mother_name ?? ''}}</td>
+                                <td>{{ $member->address ?? ''}}</td>
+                                <td>{{ $member->permanent_address ?? ''}}</td>
+                                <td>{{ $member->birth ?? ''}}</td>
+                                <td>{{ $member->education ?? ''}}</td>
+                                <td>{{ $member->company_name ?? ''}}</td>
+                                <td>{{ $member->designation ?? ''}}</td>
+                                <td>{{ $member->company_address ?? ''}}</td>
+                                <td>{{ $member->phone ?? ''}}</td>
+                                <td>{{ $member->email ?? ''}}</td>
+                                <td>{{ $member->blood ?? ''}}</td>
+                                <td>{{ $member->nid ?? ''}}</td>
+                                <td>
+                                    @if($member->cbc_type == '1')
+                                    <a href="" class="text-success"> Paid </a>
+                                    @else
+                                    <a href="" class="text-danger"> UnPaid </a>
+    
+                                    @endif
+                                </td>
+                                <td>
+                                    <img src="{{ asset('member_image/'.$member->photo ??'') }}" alt="" width="100px;">
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+    
+    
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    
+    @else
+    <div class="text-danger">Sorry Your Given Number is Not Found!</div>
+    @endif

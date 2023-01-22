@@ -1,0 +1,10 @@
+//Software Css Not Working Env file
+APP_NAME="ATech Rent Management System"
+
+APP_URL=http://localhost/nibaash/
+ASSET_URL=public/
+LOCAL_STORAGE_PREFIX=public/
+
+public/app.css:
+=================
+site url : '/ziarah/cdnlink::/fddfdkj"

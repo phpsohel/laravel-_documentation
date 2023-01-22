@@ -1,0 +1,36 @@
+Jquery CDN:
+==================
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+//Blade File:
+==================
+			<div class="row mb-3">
+                            <label for="example-email-input" class="col-sm-2 col-form-label">Profile Image</label>
+                            <div class="col-sm-10">
+                                <input id="image" class="form-control" type="file">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="example-email-input" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <img id="showImage" src="{{ asset('logo/logo.png') }}" width="100px" alt="">
+
+                            </div>
+                        </div>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        $('#image').change(function() {
+            const file = this.files[0];
+            console.log(file);
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    console.log(event.target.result);
+                    $('#showImage').attr('src', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>

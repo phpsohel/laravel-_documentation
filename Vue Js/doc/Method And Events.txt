@@ -1,0 +1,9 @@
+//Built in function For Vue:
+==============================
+var sohel = Vue.createApp({
+    data(){
+        return{
+            
+        }
+    }
+})

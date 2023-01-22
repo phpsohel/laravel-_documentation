@@ -1,0 +1,12 @@
+Laravel framework এ Service Provider, project এর Service গুলা load করে, আর Service Container হল Service কে bind বা register করা । 
+.
+যদি আরো সহজ করে বলি তাহলে Service Provider মুলত brain বা engine আর Service Container হল এর body
+
+// Laravel Service Provider sobar age application e load hoy.
+// [AppServiceProvider]  Full Appplication Run hoy theke.
+// [AuthServiceProvider] Full Appplication Run hoy theke.
+
+1. Provider Manually oo create kora jai.
+
+// Provider er subida hocche
+1. Ek jaigai call korle Full Application e change Hoye Jai Automatically. 

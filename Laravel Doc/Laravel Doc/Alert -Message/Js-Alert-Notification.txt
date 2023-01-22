@@ -1,0 +1,4 @@
+<a onclick="return confirm('Are sure to delete');" 
+		href="{{ route('admin.delete-customer',$customer->id)}}" 
+		class="text-danger"><i class="fa-solid fa-trash-can"></i>
+</a>

@@ -1,0 +1,8 @@
+coorect Time Show:
+========================
+@if($category->created_at == NULL){
+	<p> No Data Set</p>
+}
+@else{
+{{Carbon\Carbon::parse($category->created_at)->diffForHumans()}}
+@endif

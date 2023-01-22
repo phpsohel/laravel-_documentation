@@ -1,0 +1,45 @@
+//Registration:
+=======================
+public function postRegistration(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
+        $data = new User();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = bcrypt($request->password);
+        $data->save();
+        return redirect()->back()->with('success','Great! You have Successfully logged in');
+    }
+//Login:
+================
+   public function postLogin(Request $request){
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+        ]);
+        $credentials = $request->only('email', 'password');
+        if(Auth::attempt($credentials)){
+            return redirect()->route('admin.dashboard')->with('success', 'You have successfully Logged in');
+        }
+        return redirect('/')->with('success', 'Opps you have invalid email or password');
+    }
+
+//Dashboard:
+===================
+  public function dashboard()
+    {
+        if(Auth::check()){
+            return view('admin.auth.dashboard');
+        }
+        return redirect("login")->withSuccess('Opps! You do not have access');
+    }
+//logout:
+=============
+    public function Logout(){
+        Session::flush();
+        Auth::logout();
+        return redirect('/');
+    }

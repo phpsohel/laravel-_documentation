@@ -1,0 +1,4 @@
+1. Vue = vue js hocche js framework
+2. Method = function means method.
+3. Elements = html class, id, tag etc.
+4. 

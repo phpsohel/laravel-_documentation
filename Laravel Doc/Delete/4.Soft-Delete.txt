@@ -1,0 +1,38 @@
+//controller
+
+ public function create()
+    {
+        $containers = Container::where('softDeletes',1)->get();
+        return view('admin.container.create', compact('containers'));
+    }
+  public function destroy($id)
+    {
+        $delete = Container::find($id);
+        $delete->softDeletes = 0;
+        $delete->save();
+        $notification = array(
+            'message' =>  'Data Hasbeen Delete Successfully Remove it!',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+//or
+
+//Model 
+['softDeletes'];
+
+//Controller  
+ public function news()
+    {
+        $id = Auth::id();
+        $users    = User::where('softDeletes',1)->where('id','>',1)->paginate(1);
+        return view('admin.news.index', compact('users'));
+    }
+    public function destroy($id)
+    {
+        $delete  = User::find($id);
+        $delete->softDeletes = 0;
+        $delete->save();
+        return redirect()->back();
+    }

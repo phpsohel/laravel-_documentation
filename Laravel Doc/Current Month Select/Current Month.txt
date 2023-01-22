@@ -1,0 +1,27 @@
+//Blade File:
+
+@php
+        $months = array(
+                 'January',
+                  'February',
+                  'March',
+                  'April',
+                  'May',
+                  'June',
+                  'July',
+                  'August',
+                  'September',
+                  'October',
+                  'November',
+                  'December'
+        );
+ @endphp
+
+<label>Month</strong> </label>
+       <select name="gender" class="form-control">
+           @foreach ($months as $month)
+              <option value="{{ $month ?? '' }}" {{ $month == time('F')? "Selected":'' }}>{{ $month ?? '' }}</option>
+
+             @endforeach
+
+        </select>

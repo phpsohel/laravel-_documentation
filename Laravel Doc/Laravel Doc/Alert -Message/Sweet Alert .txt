@@ -1,0 +1,63 @@
+Link Css And Js:
+==================
+link:
+==========
+      <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link>
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+button:
+==========
+<a href="{{ route('admin.index',$row-id)}}" id="delete" class="btn btn-danger">Delete</a>
+Html:
+========
+
+
+  $(document).on('click', '#delete', function (e){
+        e.preventDefault();
+        var link = $(this).attr('href');
+        swal({
+            title: 'Are you sure want to delete?',
+            text: 'Once You delete,This will be permently Delete',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true
+        })
+            .then((willdelete) => {
+                if(willdelete){
+                    window.location.href =link;
+                }else{
+                    swal('Saafe data')
+                }
+            });
+    });
+or:
+=====================
+link:
+==========
+      <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link>
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+button:
+==========
+<button href="{{ route('admin.index',$row-id)}}" id="weet" onclick="check();"> Added</button>
+
+                <script>
+                    function check(){
+                        swal({
+                            title: "Are you sure?",
+                            text: "Once deleted, you will not be able to recover this imaginary file!",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    swal("Poof! Your Data deleted!", {
+                                        icon: "success",
+                                    });
+                                } else {
+                                    swal("Your file is safe!");
+                                }
+                            });
+                    }
+                </script>
