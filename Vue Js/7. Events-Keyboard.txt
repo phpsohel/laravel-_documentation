@@ -1,0 +1,23 @@
+//html
+ <div id="app">
+            <h1> My name is {{ name }} </h1>
+           <input type="text" @keyup="Keyup">
+           <input type="text" @keypress="Keyup">
+        </div>
+//js
+
+
+const app = Vue.createApp({
+    data() {
+        return {
+            name: 'sohel',
+        }
+    },
+    methods: {
+        Keyup(e) {
+            this.name = e.target.value
+        }
+    }
+})
+
+app.mount('#app')

@@ -1,0 +1,6 @@
+//Binding Means Dynamic Changes
+// Binding 2 type  all attr used binding
+1. One way binding
+2. 
+
+//One way Binding

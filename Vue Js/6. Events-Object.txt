@@ -1,0 +1,36 @@
+//Html
+<style>
+    .box{
+        background-color: red;
+        width: 200px;
+        height: 200px;
+    }
+</style>
+<div id="app">
+            <div class="box" @mousemove="Me">
+                {{ code }} - {{ age }}
+            </div>
+        </div>
+//Js
+
+
+const app = Vue.createApp({
+    data() {
+        return {
+            firstName: 'Sohel Mia',
+            age: 22,
+            code: 5,
+            picture: 'https://pinakicabd.com/wp-content/uploads/2020/08/rsz_uttarab.jpg',
+            gender: 'Male',
+            email: 'engrsohel123@gmail.com',
+        }
+    },
+    methods: {
+        Me(event) {
+            this.code = event.offsetX
+            this.age = event.offsetY
+       }
+    }
+})
+
+app.mount('#app')

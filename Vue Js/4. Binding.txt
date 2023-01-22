@@ -1,6 +1,42 @@
 //Binding Means Dynamic Changes
 // Binding 2 type  all attr used binding
 1. One way binding
-2. 
+2. Two Way Binding
 
 //One way Binding
+
+//Html
+   <div id="app">
+            <button @click="count++">{{ count }}</button>
+            <hr>
+            <h4>{{ sohel() }}</h4>
+            <hr>
+            <h4>Binding</h4>
+            <hr>
+            <a v-bind:href=" link ">Facebook</a>
+            <input type="text" :value="name" >
+        </div>
+    </div>
+//Js
+const { createApp } = Vue
+
+const app = createApp({
+    data() {
+        return {
+            link: 'https://vuejs.org/',
+            name:'sohel',
+            count: 0,
+            name: 'sohelkhan'
+        }
+    },
+    methods:{
+        newage(){
+            return "hellow"
+        },
+        sohel() {
+            return `${this.name}`
+        }
+    }
+})
+
+app.mount('#app')

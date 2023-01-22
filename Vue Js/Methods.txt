@@ -1,0 +1,28 @@
+//html
+<div id="app">
+            <h2> My Name is {{ firstName }}</h2>
+            <h2> My Name is {{ age }}</h2>
+            <img v-bind:src="picture" :alt="firstName">
+            <button v-on:click="getUser()">Click Me</button>
+        </div>
+
+//Js
+const app = Vue.createApp({
+    data() {
+        return {
+            firstName: 'Sohel Mia',
+            age: 22,
+            picture: 'https://pinakicabd.com/wp-content/uploads/2020/08/rsz_uttarab.jpg',
+            gender: 'Male',
+            email: 'engrsohel123@gmail.com',
+        }
+    },
+    methods: {
+        getUser()
+        {
+            console.log(this.firstName);
+        }
+    }
+})
+
+app.mount('#app')
