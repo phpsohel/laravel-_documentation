@@ -1,0 +1,18 @@
+// What is CLI ?
+amra jemon command likhi like php artisan serve, php artisan migrate, eirokom command use korar jonno CLI use kora hoy.
+
+//Must be Node.js install
+
+//ClI Install
+npm install -g @vue/cli
+
+//Create Project
+vue create hello-world
+
+enter
+
+// Folder select
+cd folder name
+
+//Server
+npm run serve

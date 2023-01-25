@@ -1,0 +1,2 @@
+//What is Component?
+component hocche ek ekta section liken Dashboard, Sidebar, Header.

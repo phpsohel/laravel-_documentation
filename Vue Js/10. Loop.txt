@@ -1,0 +1,25 @@
+//HTML
+<div id="app">
+            <h1> Condition </h1>
+            <ol>
+                <li v-for="(parrent, index) in parrentMessage">{{ index }} - {{ parrent }}</li>
+            </ol>
+            <ul>
+                <li v-for="item in items">{{ item.name }} - {{ item.age }} -{{ item.address }}</li>
+            </ul>
+        </div>
+//Js
+
+const app = Vue.createApp({
+    data() {
+        return {
+            parrentMessage: ['sohel', 'karim', 'munna', 'nadim'],
+            items: [
+                { name: 'sohel', age: '24', address: 'dhaka'},
+                { name: 'akash', age: '56', address: 'mirpor' }
+            ]
+        }
+    }
+})
+
+app.mount('#app')

@@ -1,3 +1,29 @@
 //html
-
+ <div id="app">
+            <h1> Condition </h1>
+            <p v-if="name">Sohel Mia</p>
+            <p v-else-if="name"> 24</p>
+            <button @click="Showmessage">Show Name {{ name }}</button>
+            <button @click="Hidemessage">Show Age {{ age }}</button>
+        </div>
 //js
+const app = Vue.createApp({
+    data() {
+        return {
+            name: true,
+            age: true,
+        }
+    }, 
+    methods: {
+        Showmessage() {
+            this.name = !this.name;
+            this.age = !this.age;
+        },
+        Hidemessage() {
+            this.name = !this.name;
+            this.age = !this.age;
+        }
+    }
+})
+
+app.mount('#app')
