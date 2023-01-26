@@ -1,0 +1,85 @@
+Username				Password
+01619123746
+sms@123
+
+
+1000 = Invalid user or Password
+1002 = Empty Number
+1003 = Invalid message or empty message
+1004 = Invalid number
+1005 = All Number is Invalid 
+1006 = insufficient Balance 
+1009 = Inactive Account
+1010 = Max number limit exceeded
+1101 = Success
+
+OTP পাঠানোর জন্য এই  ফরম্যাট  টি দেখুন  (Your {Company Name} OTP is XXXX) or ({Company Name } OTP Code is XXXX) যেমন  : Your Daraz.com OTP code is 1234 
+
+
+
+আমাদের API GET and POST দুইভাবেই ব্যবহার করতে পারবেন । 
+মোবাইল নাম্বার কমা (,) সেপারেটেড  অথবা  Newline/Space থাকতে হবে যেমন  (88017,017,17)
+POST Method দিয়ে আপনি এক সাথে ৫০০০০ পর্যন্ত SMS পাঠাতে পারবেন এবং GET Method সাথে ২০ টা পর্যন্ত SMS পাঠাতে পারবেন. 
+
+কিভাবে PHP ফাইল থেকে SMS পাঠাবেন ?
+
+//POST Method example
+
+$url = "http://66.45.237.70/api.php";
+$number="88017,88018,88019";
+$text="Hello Bangladesh";
+$data= array(
+'username'=>"YourID",
+'password'=>"YourPasswd",
+'number'=>"$number",
+'message'=>"$text"
+);
+
+$ch = curl_init(); // Initialize cURL
+curl_setopt($ch, CURLOPT_URL,$url);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$smsresult = curl_exec($ch);
+$p = explode("|",$smsresult);
+$sendstatus = $p[0];
+
+
+//Send SMS  from your database using php
+
+$query = mysql_query("SELECT * FROM `smslog` WHERE `status`='Pending' LIMIT 500");
+$row = mysql_num_rows($query );
+
+$x = '';
+while($val = mysql_fetch_array($mysql_query))
+
+{	
+$smsid= $val['id'];
+$number = $val['number'];
+$x = $x.$number.","; //number separated by comma
+$text=$val['message']; 
+mysql_query("UPDATE `smslog` SET `status`='DELIVRD' WHERE `id`='$smsid'");
+}
+
+$url = "http://66.45.237.70/api.php";
+$data= array(
+'username'=>"YourID",
+'password'=>"YourPasswd",
+'number'=>"$x",
+'message'=>"$text"
+);
+
+$ch = curl_init(); // Initialize cURL
+curl_setopt($ch, CURLOPT_URL,$url);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$smsresult = curl_exec($ch);
+$p = explode("|",$smsresult);
+$sendstatus = $p[0];
+
+
+//GET Method 
+GET Method ব্যবহার করলে  SMS content urlencode() করতে হবে।
+
+$text = urlencode("hello BULKSMS");
+
+$smsresult = file_get_contents("http://66.45.237.70/api.php?username=yourid&password=yourpass&number=88017&message=$text");
