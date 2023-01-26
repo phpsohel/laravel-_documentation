@@ -1,3 +1,14 @@
+//methods (methods ata hocche Secure)
+data() { 
+    return {
+      title: 'Learn Vue js Hurrah!',
+    }
+  }
+//Property (property ata hocche nonSecure)
+data: { 
+      title: 'Learn Vue js Hurrah!',
+    }
+===================
 const { createApp } = Vue
 
 const app = createApp({

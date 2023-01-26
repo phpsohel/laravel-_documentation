@@ -1,3 +1,4 @@
 Controller:
 ==============
+<td>{{ Carbon\Carbon::today()->toDateString() }}</td>
 $domains = Domain_Hosting::where('domain_expiry_date',date('y-m-d'))->get();

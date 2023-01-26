@@ -1,0 +1,2 @@
+//What is Props
+component theke data pathanor por recive er jonno proops use kora jai.

@@ -1,2 +1,11 @@
 //What is Component?
 component hocche ek ekta section liken Dashboard, Sidebar, Header.
+
+//Component # part
+1. template
+2. <script> 
+  export default{
+
+   }
+</script>
+3. style
