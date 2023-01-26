@@ -4,17 +4,24 @@
     	php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
 
 //Route:
- Route::get('containers/receipt-pdf/{id}', [ContainerController::class, 'PDF'])->name('containers.pdf');
+Route::get('categories/show/generate/{id}', 'generate')->name('categories.generate');
 
 //Blade file:
-<a href="{{ route('containers.pdf', $show->id) }}" target="_blank" type="button" class="btn btn-secondary buttons-pdf buttons-html5  "><i class="dripicons-print"></i> PDF</a>
+<div class="display-flex">
+        <a href="{{ route('categories.generate', $show->id) }}" target="_blank"><button type="submit" class="btn btn-primary">Download</button></a>
+        <button type="submit" class="btn btn-success">Print</button>
+    </div>
 
 //Controller:
- public function PDF(Request $request, $id)
+ public function show($id)
     {
-        $data['show'] = Container::find($id);
-        $customPaper = array(0,0,720,500);
-        $pdf = PDF::loadView('container.pdf',$data)->setPaper($customPaper,'portrait');
-        $pdf = $pdf->stream(Carbon::today()->toDateString().'-container.pdf');
-        return $pdf;
+        $show  = Category::find($id);
+        return view('category.show', compact('show'));
+    }
+    public function generate($id)
+    {
+        $show  = Category::find($id);
+        $data = ['show' => $show];
+        $pdf = Pdf::loadView('category.generate', $data);
+        return $pdf->download('categories-invoice'.'-'.$show->id.'.pdf');
     }
