@@ -1,0 +1,19 @@
+$(document).ready(function() {
+            $('.banking').hide();
+            $('.mobile_banking').hide();
+
+            $('.payment_type').on('change', function() {
+                var paymentType = $(this).find('option:selected').val();
+               
+                if (paymentType == 1) {
+                    $('.banking').hide();
+                    $('.mobile_banking').hide();
+                } else if (paymentType == 2) {
+                    $('.banking').show();
+                    $('.mobile_banking').hide();
+                } else {
+                    $('.banking').hide();
+                    $('.mobile_banking').show();
+                }
+            });
+        });

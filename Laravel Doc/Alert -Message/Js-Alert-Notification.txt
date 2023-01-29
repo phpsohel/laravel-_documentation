@@ -1,3 +1,8 @@
+ //onsubmit="return confirm('Are You Sure ');"
+<form action="{{ route('sms.send')}}" method="post" onsubmit="return confirm('Are You Sure ');">
+</form>
+
+//Delete
 <a onclick="return confirm('Are sure to delete');" 
 		href="{{ route('admin.delete-customer',$customer->id)}}" 
 		class="text-danger"><i class="fa-solid fa-trash-can"></i>
