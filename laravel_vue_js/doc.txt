@@ -1,0 +1,21 @@
+1. laravel install
+2. database create
+3. database migrate
+4. Product
+5. Order
+6. Country
+7. Items
+8. Details
+9. Payment
+10. Customer
+
+//Vue js Project Setup
+==============================
+
+11. npm create vite@latest
+12. backend
+
+//Tailwind install
+====================
+13. npm install -D tailwindcss
+14. npx tailwindcss init

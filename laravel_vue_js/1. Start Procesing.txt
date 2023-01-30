@@ -1,0 +1,16 @@
+npm install
+npm install vue-router@4
+npm run dev
+
+1. Node js install
+2. node version 
+node -v
+
+3. npm version 
+npm-v
+
+4. install vue cli
+npm install @vue/cli
+
+5. vue router install
+vue init webpack myapp

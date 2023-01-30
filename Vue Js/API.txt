@@ -1,0 +1,5 @@
+API= application programming interface
+Rest Full Api = representational state transfer
+
+//Third Party APi =
+ Facebook, Twitter, Linkedin, login direct korakei third party api bole.
