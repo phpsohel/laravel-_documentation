@@ -1,16 +1,41 @@
+npm install // Node Module install Kore
+npm install vue-router
+npm run dev // css and js file compiled kore fele
+===================
+//main file e
+===================
+public/css,public/js 
+<script src="{{ asset('css/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+
+or
+===========
+npm run dev // css and js file compiled kore fele
+npm istall vue // Just ata install korlei hobe
+webpack.mix.js // vue ta include kore dite hobe
+mix.js('resources/js/app.js', 'public/js').vue()
+    .postCss('resources/css/app.css', 'public/css', [
+        //
+    ]);
+===============
+or
+===============
 npm install
-npm install vue-router@4
-npm run dev
+npm init vue@latest
+
+>cd <your-project-name>
+> npm install
+> npm run dev
 
 1. Node js install
 2. node version 
 node -v
 
 3. npm version 
-npm-v
+    npm-v
 
 4. install vue cli
-npm install @vue/cli
+   npm install @vue/cli
 
 5. vue router install
-vue init webpack myapp
+   vue init webpack myapp

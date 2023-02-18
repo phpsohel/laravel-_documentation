@@ -1,0 +1,11 @@
+1. composer require laravel/ui 
+   php artisan ui vue --auth
+2. npm install
+3. php artisan migrate
+4. npm run dev
+5. php artisan make:seeder UserSeeder
+6. npm install vue-router
+   or npm install vue-router@4
+7. npm run watch
+8. Handle Laravel-Vue forms and validation with ease
+   npm install axios vform

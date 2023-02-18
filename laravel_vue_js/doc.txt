@@ -19,3 +19,4 @@
 ====================
 13. npm install -D tailwindcss
 14. npx tailwindcss init
+15. npm install -s vuex@next
