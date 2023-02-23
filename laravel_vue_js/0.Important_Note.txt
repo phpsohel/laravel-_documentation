@@ -1,0 +1,39 @@
+npm install
+npm install vue-router@4
+npm run dev
+npm install vue-template-compiler
+npm install vue-loader
+npm run watch
+//webpack.mix.js
+  mix.js('resources/js/app.js', 'public/js')
+    .vue()
+    .postCss('resources/css/app.css', 'public/css', [
+        //
+    ]);
+//app.js
+require('./bootstrap');
+import { createApp } from 'vue'
+import ExampleComponent from './components/ExampleComponent.vue'
+const app = createApp({})
+app.component('example-component',ExampleComponent)
+app.mount('#app');
+
+//master blade file
+ <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+ <body>
+    <div class="container">
+        <div id="app">
+
+            @yield('content')
+
+        </div>
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
+</body>
+//post blade file
+  @extends('layouts.master')
+  @section('content')
+    <example-component></example-component>
+
+  @endsection
+
